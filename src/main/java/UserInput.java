@@ -16,7 +16,7 @@ public class UserInput {
 
     private BattleBoard board;
 
-    static Scanner s = new Scanner(System.in);
+    Scanner s;
     private Integer numPlayers = 0;
     private UserVO player1 = new UserVO("Frank", false);
     private UserVO player2 = new UserVO("Nessie", false);
@@ -29,9 +29,10 @@ public class UserInput {
     private Monster monster4;
 
 
-    public UserInput(BattleBoard board)
+    public UserInput(BattleBoard board, Scanner s)
     {
         this.board = board;
+        this.s = s;
     }
 
     public void userInput() {
@@ -72,21 +73,30 @@ public class UserInput {
                 case 1:
                     System.out.println(PLAYER + i + PLAYER_NAME_INPUT);
                     s.nextLine();
-                    player1.setUserName(s.nextLine());
+                    try {
+                        player1.setUserName(s.nextLine());
+                    } catch (InputMismatchException e) {
+                        s.nextLine();
+                    } catch (StringIndexOutOfBoundsException e) {
+                        s.hasNextLine();
+                    }
                     player1.setIsHuman(true);
                     break;
                 case 2:
                     System.out.println(PLAYER + i + PLAYER_NAME_INPUT);
+                    s.nextLine();
                     player2.setUserName(s.nextLine());
                     player2.setIsHuman(true);
                     break;
                 case 3:
                     System.out.println(PLAYER + i + PLAYER_NAME_INPUT);
+                    s.nextLine();
                     player3.setUserName(s.nextLine());
                     player3.setIsHuman(true);
                     break;
                 case 4:
                     System.out.println(PLAYER + i + PLAYER_NAME_INPUT);
+                    s.nextLine();
                     player4.setUserName(s.nextLine());
                     player4.setIsHuman(true);
                     break;
@@ -117,7 +127,6 @@ public class UserInput {
         board.reDrawBoard();
 
         //start(player1, player2, player3, player4);
-        s.close();
     }
 
     public Monster getMonster1()
